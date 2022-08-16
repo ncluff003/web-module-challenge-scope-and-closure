@@ -1,27 +1,31 @@
-//❗❗ PLEASE READ THE README file for project instructions, helpful resources, additional tasks and stretch problems, and more ❗❗ 
+//❗❗ PLEASE READ THE README file for project instructions, helpful resources, additional tasks and stretch problems, and more ❗❗
 
 // ⭐️ Example Challenge START ⭐️
 
 /**Example Task : processFirstItem()
  * This example shows how you might go about solving the rest of the tasks
- * 
+ *
  * Use the higher order function processFirstItem below to do the following:
  *  1. Receive an array of strings in a parameter
  *  2. Receive a callback function that takes a string as its argument in a parameter
- *  3. Return the result of invoking the callback function and passing in the FIRST 
+ *  3. Return the result of invoking the callback function and passing in the FIRST
  *     element in the array as the argument
- * 
+ *
  * The following code is demonstrating a way of completing this task
  * It returns the string `foofoo`
-*/
+ */
 
 function processFirstItem(stringList, callback) {
-  return callback(stringList[0])
+  return callback(stringList[0]);
 }
-console.log('example task:', processFirstItem(['foo','bar'],function(str){return str+str}));
+console.log(
+  "example task:",
+  processFirstItem(["foo", "bar"], function (str) {
+    return str + str;
+  })
+);
 
 // ⭐️ Example Challenge END ⭐️
-
 
 ///// M V P ///////
 
@@ -30,19 +34,22 @@ console.log('example task:', processFirstItem(['foo','bar'],function(str){return
   Study the code for counter1 and counter2, then answer the questions below.
   
   1. What is the difference between counter1 and counter2?
+    A: counter2 is more of a single use incrementer which will always return 1, while counter1 returns a function which utilizes closure.  That closure is where the returned function accesses the variable count outside of it, which allows the count to increase beyond 1.
   
   2. Which of the two uses a closure? How can you tell?
+    A: As stated in the first answer, counter1 uses a closure.  It does by returning a function which within its lexical scope is accessing a variable outside of its functional scope.
   
   3. In what scenario would the counter1 code be preferable? In what scenario would 
-     counter2 be better?  
+     counter2 be better?
+    A: counter1 is better when you are needing to have continual access of manipulating a certain variable in a specific way.  It is especially so when you are accessing a private variable to manipulate.  counter2 would be most useful in a situation where you are only manipulating a variable one of two ways, which is more ideal for something that is a boolean value.  
 */
 
 // counter1 code
 function counterMaker() {
   let count = 0;
   return function counter() {
-   return count++;
-  }
+    return count++;
+  };
 }
 
 const counter1 = counterMaker();
@@ -54,7 +61,6 @@ function counter2() {
   return count++;
 }
 
-
 /* ⚾️⚾️⚾️ Task 2: inning() ⚾️⚾️⚾️
 Use the inning function below to do the following:
   1. Return a random whole number of points between 0 and 2 scored by one team in an inning
@@ -64,10 +70,9 @@ Use the inning function below to do the following:
 NOTE: This will be a callback function for the tasks below
 */
 
-function inning(/*Code Here*/){
-    /*Code Here*/
+function inning() {
+  return Math.round(Math.random() * 2);
 }
-
 
 /* ⚾️⚾️⚾️ Task 3: finalScore() ⚾️⚾️⚾️
 Use the finalScore function below to do the following:
@@ -81,12 +86,21 @@ Use the finalScore function below to do the following:
   "Home": 11,
   "Away": 5
 }
-*/ 
+*/
 
-function finalScore(/*Code Here*/){
-  /*Code Here*/
+function finalScore(inning, numberOfInnings) {
+  let score = {
+    Home: 0,
+    Away: 0,
+  };
+  for (let i = 0; i < numberOfInnings; i++) {
+    let numberOrRuns = inning();
+    let numberOrRuns2 = inning();
+    score.Home = numberOrRuns;
+    score.Away = numberOrRuns2;
+  }
+  return score;
 }
-
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
 Use the getInningScore() function below to do the following:
@@ -100,12 +114,12 @@ For example: invoking getInningScore(inning) might return this object:
 }
   */
 
-
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
-
+function getInningScore(inning) {
+  return {
+    Home: inning(),
+    Away: inning(),
+  };
 }
-
 
 /* STRETCH: ⚾️⚾️⚾️ Task 5: scoreboard() ⚾️⚾️⚾️
 Use the scoreboard function below to do the following:
@@ -147,17 +161,31 @@ Use the scoreboard function below to do the following:
   "This game will require extra innings: Away 10 - Home 10"
 ] */
 // NOTE: There is no test associated with this code; if your output matches the given example, consider it complete!
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(getInningScore, inning, numberOfInnings) {
+  let inningArray = [];
+  let awayTotal = 0,
+    homeTotal = 0;
+  let awayInning, homeInning;
+  for (let i = 0; i < numberOfInnings; i++) {
+    awayInning = getInningScore(inning).Away;
+    homeInning = getInningScore(inning).Home;
+    awayTotal += awayInning;
+    homeTotal += homeInning;
+    inningArray.push(`Inning ${i + 1}: Away ${awayInning} - Home ${homeInning}`);
+  }
+  if (awayTotal === homeTotal) {
+    inningArray.push(`This game will require extra innings: Away ${awayTotal} - Home ${homeTotal}`);
+  } else {
+    inningArray.push(`Final Score: ${awayTotal} - Home ${homeTotal}`);
+  }
+  console.log(awayTotal, homeTotal, inningArray);
 }
-
-
-
+console.log(scoreboard(getInningScore, inning, 9));
 
 /* 🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑 */
-function foo(){
-  console.log('its working');
-  return 'bar';
+function foo() {
+  console.log("its working");
+  return "bar";
 }
 foo();
 module.exports = {
@@ -169,4 +197,4 @@ module.exports = {
   finalScore,
   getInningScore,
   scoreboard,
-}
+};
