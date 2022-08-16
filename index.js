@@ -96,11 +96,13 @@ function finalScore(inning, numberOfInnings) {
   for (let i = 0; i < numberOfInnings; i++) {
     let numberOrRuns = inning();
     let numberOrRuns2 = inning();
-    score.Home = numberOrRuns;
-    score.Away = numberOrRuns2;
+    score.Home += numberOrRuns;
+    score.Away += numberOrRuns2;
   }
   return score;
 }
+
+console.log(finalScore(inning, 9));
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
 Use the getInningScore() function below to do the following:
@@ -178,7 +180,7 @@ function scoreboard(getInningScore, inning, numberOfInnings) {
   } else {
     inningArray.push(`Final Score: ${awayTotal} - Home ${homeTotal}`);
   }
-  console.log(awayTotal, homeTotal, inningArray);
+  console.log(inningArray);
 }
 console.log(scoreboard(getInningScore, inning, 9));
 
